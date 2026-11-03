@@ -1,0 +1,32 @@
+{% extends "admin/_layout.html" %}
+{% block title %}Рецепти — Адмін-панель{% endblock %}
+{% block admin_content %}
+<h1>Рецепти</h1>
+{% if recipes %}
+<table class="admin-table">
+  <thead><tr><th>Назва</th><th>Категорія</th><th>Статус</th><th>Оновлено</th><th></th></tr></thead>
+  <tbody>
+  {% for r in recipes %}
+    <tr>
+      <td>
+        {% if r.is_published %}<a href="{{ url_for('public.recipe', slug=r.slug) }}">{{ r.title }}</a>{% else %}{{ r.title }}{% endif %}
+      </td>
+      <td>{{ r.category.name if r.category else '—' }}</td>
+      <td>{% if r.is_published %}<span class="badge ok">Опубліковано</span>{% else %}<span class="badge">Чернетка</span>{% endif %}</td>
+      <td>{{ r.updated_at.strftime('%d.%m.%Y %H:%M') }}</td>
+      <td class="actions">
+        <a class="btn btn-small" href="{{ url_for('admin.recipe_edit', recipe_id=r.id) }}">Редагувати</a>
+        <form method="post" action="{{ url_for('admin.recipe_delete', recipe_id=r.id) }}" class="inline"
+              onsubmit='return confirm({{ ("Видалити рецепт «" ~ r.title ~ "»?")|tojson }});'>
+          {{ delete_form.hidden_tag() }}
+          <button type="submit" class="btn btn-small btn-danger">Видалити</button>
+        </form>
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}
+  <p class="empty">Рецептів ще немає. <a href="{{ url_for('admin.recipe_new') }}">Додайте перший!</a></p>
+{% endif %}
+{% endblock %}

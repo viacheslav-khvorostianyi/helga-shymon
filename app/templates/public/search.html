@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% from "_macros.html" import recipe_grid %}
+{% block title %}Пошук — Книга рецептів{% endblock %}
+{% block content %}
+  {% if q %}
+    <h1>Результати пошуку: «{{ q }}»</h1>
+    {{ recipe_grid(pagination, 'public.search', empty="Нічого не знайдено. Спробуйте інший запит.", q=q) }}
+  {% else %}
+    <h1>Пошук</h1>
+    <p class="empty">Введіть назву страви або інгредієнт у поле пошуку.</p>
+  {% endif %}
+{% endblock %}

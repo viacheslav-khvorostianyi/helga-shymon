@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% from "_macros.html" import recipe_grid %}
+{% block title %}#{{ tag.name }} — Книга рецептів{% endblock %}
+{% block content %}
+  <h1>Тег: #{{ tag.name }}</h1>
+  {{ recipe_grid(pagination, 'public.tag', empty="Рецептів з цим тегом ще немає.", slug=tag.slug) }}
+{% endblock %}

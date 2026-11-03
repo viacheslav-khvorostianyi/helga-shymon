@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% from "_macros.html" import recipe_grid %}
+{% block title %}{{ category.name }} — Книга рецептів{% endblock %}
+{% block content %}
+  <h1>Категорія: {{ category.name }}</h1>
+  {{ recipe_grid(pagination, 'public.category', empty="У цій категорії ще немає рецептів.", slug=category.slug) }}
+{% endblock %}

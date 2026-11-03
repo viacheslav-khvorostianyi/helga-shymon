@@ -1,0 +1,38 @@
+{% extends "admin/_layout.html" %}
+{% block title %}Категорії — Адмін-панель{% endblock %}
+{% block admin_content %}
+<h1>Категорії</h1>
+<form method="post" class="inline-form">
+  {{ form.hidden_tag() }}
+  {{ form.name(placeholder="Нова категорія") }}
+  {{ form.submit(class="btn") }}
+</form>
+{% if categories %}
+<table class="admin-table">
+  <thead><tr><th>Назва</th><th>Рецептів</th><th></th></tr></thead>
+  <tbody>
+  {% for c in categories %}
+    <tr>
+      <td>
+        <form method="post" action="{{ url_for('admin.category_rename', category_id=c.id) }}" class="inline-form">
+          {{ delete_form.hidden_tag() }}
+          <input type="text" name="name" value="{{ c.name }}" required>
+          <button type="submit" class="btn btn-small">Перейменувати</button>
+        </form>
+      </td>
+      <td>{{ c.recipes|length }}</td>
+      <td class="actions">
+        <form method="post" action="{{ url_for('admin.category_delete', category_id=c.id) }}" class="inline"
+              onsubmit='return confirm({{ ("Видалити категорію «" ~ c.name ~ "»?")|tojson }});'>
+          {{ delete_form.hidden_tag() }}
+          <button type="submit" class="btn btn-small btn-danger" {% if c.recipes %}disabled title="У категорії є рецепти"{% endif %}>Видалити</button>
+        </form>
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}
+  <p class="empty">Категорій ще немає.</p>
+{% endif %}
+{% endblock %}

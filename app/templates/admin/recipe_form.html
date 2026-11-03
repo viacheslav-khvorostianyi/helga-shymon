@@ -1,0 +1,33 @@
+{% extends "admin/_layout.html" %}
+{% block title %}{{ 'Редагування' if recipe else 'Новий рецепт' }} — Адмін-панель{% endblock %}
+{% macro field(f) %}
+  <label>{{ f.label }} {{ f(**kwargs) }}
+    {% for e in f.errors %}<span class="error">{{ e }}</span>{% endfor %}
+  </label>
+{% endmacro %}
+{% block admin_content %}
+<h1>{{ 'Редагування: ' ~ recipe.title if recipe else 'Новий рецепт' }}</h1>
+<form method="post" enctype="multipart/form-data" class="recipe-form">
+  {{ form.hidden_tag() }}
+  {{ field(form.title) }}
+  <div class="row">
+    {{ field(form.category_id) }}
+    {{ field(form.tags, placeholder="напр.: швидко, вегетаріанське") }}
+  </div>
+  {{ field(form.summary, rows=3) }}
+  {{ field(form.ingredients, rows=8) }}
+  {{ field(form.instructions, rows=10) }}
+  {% if recipe and recipe.image_filename %}
+    <div class="current-image">
+      <img src="{{ url_for('uploaded_file', filename=recipe.image_filename) }}" alt="">
+      <label class="checkbox">{{ form.remove_image() }} {{ form.remove_image.label.text }}</label>
+    </div>
+  {% endif %}
+  {{ field(form.image, accept="image/jpeg,image/png,image/webp") }}
+  <label class="checkbox">{{ form.is_published() }} {{ form.is_published.label.text }}</label>
+  <div class="form-actions">
+    {{ form.submit(class="btn") }}
+    <a href="{{ url_for('admin.dashboard') }}">Скасувати</a>
+  </div>
+</form>
+{% endblock %}

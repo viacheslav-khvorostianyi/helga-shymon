@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% from "_macros.html" import recipe_grid %}
+{% block content %}
+  <h1>Усі рецепти</h1>
+  {{ recipe_grid(pagination, 'public.index') }}
+{% endblock %}

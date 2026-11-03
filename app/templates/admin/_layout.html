@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="admin">
+  <nav class="admin-nav">
+    <a href="{{ url_for('admin.dashboard') }}">Рецепти</a>
+    <a href="{{ url_for('admin.recipe_new') }}">+ Новий рецепт</a>
+    <a href="{{ url_for('admin.categories') }}">Категорії</a>
+    <form method="post" action="{{ url_for('admin.logout') }}" class="inline">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <button type="submit" class="link-button">Вийти ({{ current_user.username }})</button>
+    </form>
+  </nav>
+  {% block admin_content %}{% endblock %}
+</div>
+{% endblock %}

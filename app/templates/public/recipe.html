@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}{{ recipe.title }} — Книга рецептів{% endblock %}
+{% block content %}
+<article class="recipe">
+  <h1>{{ recipe.title }}</h1>
+  <div class="meta">
+    {% if recipe.category %}
+      <a class="card-category" href="{{ url_for('public.category', slug=recipe.category.slug) }}">{{ recipe.category.name }}</a>
+    {% endif %}
+    {% for t in recipe.tags %}
+      <a class="tag" href="{{ url_for('public.tag', slug=t.slug) }}">#{{ t.name }}</a>
+    {% endfor %}
+    <time>{{ recipe.created_at.strftime('%d.%m.%Y') }}</time>
+  </div>
+  {% if recipe.image_filename %}
+    <img class="recipe-image" src="{{ url_for('uploaded_file', filename=recipe.image_filename) }}" alt="{{ recipe.title }}">
+  {% endif %}
+  {% if recipe.summary %}<p class="summary">{{ recipe.summary }}</p>{% endif %}
+
+  <div class="recipe-columns">
+    {% if recipe.ingredient_list %}
+    <section class="ingredients">
+      <h2>Інгредієнти</h2>
+      <ul>{% for i in recipe.ingredient_list %}<li>{{ i }}</li>{% endfor %}</ul>
+    </section>
+    {% endif %}
+    {% if recipe.step_list %}
+    <section class="steps">
+      <h2>Приготування</h2>
+      <ol>{% for s in recipe.step_list %}<li>{{ s }}</li>{% endfor %}</ol>
+    </section>
+    {% endif %}
+  </div>
+  {% if current_user.is_authenticated %}
+    <p><a class="btn" href="{{ url_for('admin.recipe_edit', recipe_id=recipe.id) }}">Редагувати</a></p>
+  {% endif %}
+</article>
+{% endblock %}

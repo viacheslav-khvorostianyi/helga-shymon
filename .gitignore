@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+instance/
+uploads/*
+!uploads/.gitkeep
+.idea/
+*.pem
+*.key
+*.db
+*.sqlite3
+.env.*
+!.env.example
+.DS_Store

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Вхід — Адмін-панель{% endblock %}
+{% block content %}
+<div class="form-narrow">
+  <h1>Вхід в адмін-панель</h1>
+  <form method="post">
+    {{ form.hidden_tag() }}
+    <label>{{ form.username.label }} {{ form.username(autofocus=true) }}</label>
+    <label>{{ form.password.label }} {{ form.password() }}</label>
+    {{ form.submit(class="btn") }}
+  </form>
+</div>
+{% endblock %}
